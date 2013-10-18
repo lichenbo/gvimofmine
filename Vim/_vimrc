@@ -1,0 +1,56 @@
+set encoding=utf-8
+set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
+set termencoding=utf-8
+set langmenu=en_US.UTF-8
+let $LANG = 'en_US'
+set nocompatible
+source $VIMRUNTIME/vimrc_example.vim
+source $VIMRUNTIME/mswin.vim
+behave mswin
+let g:neocomplete#enable_at_startup = 1
+
+set ai                          " set auto-indenting on for programming
+set showmatch                   " automatically show matching brackets. works like it does in bbedit.
+"set vb                          " turn on the "visual bell" - which is much quieter than the "audio blink"
+set ruler                       " show the cursor position all the time
+set laststatus=2                " make the last line where the status is two lines deep so you can see status always
+set backspace=indent,eol,start  " make that backspace key work the way it should
+set nocompatible                " vi compatible is LAME
+set background=dark             " Use colours that work well on a dark background (Console is usually black)
+set showmode                    " show the current mode
+set nobackup
+set nowritebackup
+set guifont=Consolas 
+set nu
+set mouse=a
+set tabstop=4			" 1 tab = 4 space
+colorscheme evening
+set gfw=свт╡:h10:cGB2312
+syntax on                       " turn syntax highlighting on by default
+map j gj
+map k gk
+set diffexpr=MyDiff()
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let eq = ''
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      let cmd = '""' . $VIMRUNTIME . '\diff"'
+      let eq = '"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction
+
