@@ -30,6 +30,10 @@ syntax on                       " turn syntax highlighting on by default
 map j gj
 map k gk
 set diffexpr=MyDiff()
+"folding settings
+set foldmethod=indent
+set foldnestmax=10
+set foldlevel=1
 function MyDiff()
   let opt = '-a --binary '
   if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
